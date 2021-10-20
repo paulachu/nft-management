@@ -1,24 +1,41 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserModel } from 'src/data/models/user.model';
-import { USER_REPOSITORY } from 'src/utils/constants';
+import { CreateUserRequest } from 'src/dto/auth/create.user.request';
+import { LoginRequest } from 'src/dto/auth/login.request';
+import { SECRET_KEY_ADMIN, SECRET_KEY_USER, USER_REPOSITORY } from 'src/utils/constants';
 
 @Injectable()
 export class AuthService {
-    constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof UserModel)
-    {}
+    constructor(@Inject(USER_REPOSITORY) private readonly userRepository: typeof UserModel) { }
 
-    async createUser(): Promise<UserModel>
-    {
-        return this.userRepository.create({
-            email: 'test@nft.fr',
-            password: 'ok',
-            roleId: 1,
-            name: 'test',
-            blockChainAddress: '0xba3c9BA4a7C10b904Bb7ad7FDCB0d2CF9681BcA1'
-        })
+    async createUser(userToCreate: CreateUserRequest): Promise<UserModel> {
+        let userTo = { ...userToCreate, password: 'ok' }
+        return this.userRepository.create(userTo);
     }
-    isAdmin(): Boolean
-    {
+    isAdmin(): Boolean {
         return true;
+    }
+    async login(loginForm: LoginRequest): Promise<string> {
+        try {
+            let found = await this.userRepository.findOne({
+                where: {
+                    password: loginForm.password,
+                    email: loginForm.email
+                }
+            });
+            if (found.role.name === 'user')
+            {
+                return SECRET_KEY_USER;
+            }
+            else if (found.role.name === 'admin')
+            {
+                return SECRET_KEY_ADMIN;
+            }
+            return null;
+        }
+        catch (e)
+        {
+            return null;
+        }
     }
 }

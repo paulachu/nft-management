@@ -25,10 +25,10 @@ export class AuthController {
 
     @Post('/login')
     @HttpCode(HttpStatus.OK)
-    public async login(@Body() loginForm: LoginRequest): Promise<number> {
-        if (await this.authService.login(loginForm))
-        {
-            return new Date().getTime();
+    public async login(@Body() loginForm: LoginRequest): Promise<string> {
+        let secretKey = await this.authService.login(loginForm);
+        if (secretKey != null){
+            return secretKey;
         }
         throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
     }

@@ -46,13 +46,26 @@ export class UserModel extends Model {
 
     @ForeignKey(() => TeamModel)
     @Column
+    @Column({
+        allowNull: true,
+        type: DataType.BIGINT,
+        validate: {
+            notEmpty: true
+        }
+    })
     teamId: number
 
     @BelongsTo(() => TeamModel)
     team: TeamModel;
 
     @ForeignKey(() => RoleModel)
-    @Column
+    @Column({
+        allowNull: false,
+        type: DataType.BIGINT,
+        validate: {
+            notEmpty: true
+        }
+    })
     roleId: number
 
     @BelongsTo(() => RoleModel)

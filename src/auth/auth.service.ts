@@ -19,6 +19,18 @@ export class AuthService {
     isAdmin(): Boolean {
         return true;
     }
+    async validateUser(data: any) : Promise<boolean> {
+        let foundUser = await this.userRepository.findOne({ where: {email: data['email']}, include: [{model: RoleModel}]});
+
+        return foundUser && foundUser.roleId === data['roleId'] && foundUser.id === data['id'] && foundUser.role.name === data['role']
+    }
+    async validateAdmin(data: any) : Promise<boolean> {
+        let foundUser = await this.userRepository.findOne({ where: {email: data['email']}, include: [{model: RoleModel}]});
+
+        return foundUser && foundUser.roleId === data['roleId']
+                && foundUser.id === data['id'] && foundUser.role.name === data['role']
+                && foundUser.role.name === 'admin';
+    }
     async login(loginForm: LoginRequest): Promise<string> {
         try {
             let found = await this.userRepository.findOne({

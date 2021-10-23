@@ -1,4 +1,4 @@
-import { ROLE_REPOSITORY } from "src/utils/constants";
+import { ROLE_REPOSITORY } from "src/common/constants";
 import { RoleModel } from "../models/role.model";
 
 export const roleProviders = [

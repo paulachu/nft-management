@@ -1,9 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { RoleModel } from 'src/data/models/role.model';
-import { UserModel } from 'src/data/models/user.model';
-import { CreateUserRequest } from 'src/dto/auth/create.user.request';
-import { LoginRequest } from 'src/dto/auth/login.request';
-import { ROLE_REPOSITORY, SECRET_KEY_ADMIN, SECRET_KEY_USER, USER_REPOSITORY } from 'src/utils/constants';
+import { Injectable, Inject } from "@nestjs/common";
+import { USER_REPOSITORY, ROLE_REPOSITORY, SECRET_KEY_USER, SECRET_KEY_ADMIN } from "src/common/constants";
+import { RoleModel } from "src/database/models/role.model";
+import { UserModel } from "src/database/models/user.model";
+import { CreateUserRequest } from "./dto/create.user.request";
+import { LoginRequest } from "./dto/login.request";
+
 
 @Injectable()
 export class AuthService {

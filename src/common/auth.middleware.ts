@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, NestMiddleware } from "@nestjs/common";
-import { SECRET_KEY_USER } from "src/utils/constants";
+import { SECRET_KEY_USER } from "src/common/constants";
 
 export class AuthMiddleware implements NestMiddleware
 {

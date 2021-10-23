@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Post, Res, HttpException, HttpCode } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { UserModel } from 'src/data/models/user.model';
-import { CreateUserRequest } from 'src/dto/auth/create.user.request';
-import { LoginRequest } from 'src/dto/auth/login.request';
-import { AuthService } from 'src/services/auth/auth.service';
+import { UserModel } from 'src/database/models/user.model';
+import { CreateUserRequest } from 'src/auth/dto/create.user.request';
+import { LoginRequest } from 'src/auth/dto/login.request';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 @ApiTags('Auth')

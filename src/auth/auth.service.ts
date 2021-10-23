@@ -26,10 +26,10 @@ export class AuthService {
     }
     async validateAdmin(data: any) : Promise<boolean> {
         let foundUser = await this.userRepository.findOne({ where: {email: data['email']}, include: [{model: RoleModel}]});
-
+        console.log(foundUser)
         return foundUser && foundUser.roleId === data['roleId']
                 && foundUser.id === data['id'] && foundUser.role.name === data['role']
-                && foundUser.role.name === 'admin';
+                && foundUser.role.name === 'admin' && (!foundUser.teamId || foundUser.teamId == data['teamId']);
     }
     async login(loginForm: LoginRequest): Promise<string> {
         try {
@@ -44,7 +44,8 @@ export class AuthService {
                 id: found.id,
                 roleId: found.roleId,
                 role: found.role.name,
-                email: found.email
+                email: found.email,
+                teamId: found.teamId
             }
             const jwt = this.jwtService.signAsync(payload);
 

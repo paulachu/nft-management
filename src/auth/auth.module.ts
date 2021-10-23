@@ -18,4 +18,10 @@ import { AuthMiddleware } from 'src/common/auth.middleware';
         ...usersProviders, ...roleProviders],
     controllers: [AuthController]
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+    configure(consumer: MiddlewareConsumer)
+    {
+      consumer.apply(AuthMiddleware).forRoutes('/auth/test');
+      consumer.apply(AuthAdminMiddleware).forRoutes('/auth/register');
+    }
+}

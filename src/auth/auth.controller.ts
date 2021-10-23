@@ -27,6 +27,7 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     public async login(@Body() loginForm: LoginRequest): Promise<string> {
         let secretKey = await this.authService.login(loginForm);
+        console.log(secretKey)
         if (secretKey != null){
             return secretKey;
         }

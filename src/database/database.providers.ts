@@ -10,7 +10,8 @@ export const databaseProviders = [
       provide: 'SEQUELIZE',
       useFactory: async (configService: ConfigService) => {
         let databaseConfig = DatabaseConfig.getConfig(configService);
-        const sequelize = new Sequelize(databaseConfig);
+        //const sequelize = new Sequelize(databaseConfig);
+        const sequelize = new Sequelize('sqlite::memory:');
         sequelize.addModels([UserModel, TeamModel, RoleModel]);
         await sequelize.sync({force: true});
         const adminRole = new RoleModel({id: 1, name: 'admin'});

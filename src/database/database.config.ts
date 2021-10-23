@@ -7,6 +7,7 @@ export interface DatabaseConfig {
     database: string;
     host: string;
     dialect: Dialect;
+    storage:string;
 }
 export class DatabaseConfig {
     static getConfig(configService: ConfigService): DatabaseConfig
@@ -16,7 +17,8 @@ export class DatabaseConfig {
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
             host: process.env.DB_HOST,
-            dialect: 'postgres',
+            storage: '::memory:',
+            dialect: 'sqlite',
         };
     }
 }

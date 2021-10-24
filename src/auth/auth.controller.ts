@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res, HttpException, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, HttpException, HttpCode, Inject, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserModel } from 'src/database/models/user.model';
 import { CreateUserRequest } from 'src/auth/dto/create.user.request';
@@ -15,7 +15,6 @@ export class AuthController {
 
         try {
             let user = await this.authService.createUser(userToCreate);
-            console.log(user)
             return user;
         }
         catch (e) {
@@ -27,7 +26,6 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     public async login(@Body() loginForm: LoginRequest): Promise<string> {
         let secretKey = await this.authService.login(loginForm);
-        console.log(secretKey)
         if (secretKey != null){
             return secretKey;
         }

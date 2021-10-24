@@ -45,7 +45,6 @@ export class UserModel extends Model {
     password: string;
 
     @ForeignKey(() => TeamModel)
-    @Column
     @Column({
         allowNull: true,
         type: DataType.BIGINT,

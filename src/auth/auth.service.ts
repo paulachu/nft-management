@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { USER_REPOSITORY, ROLE_REPOSITORY, SECRET_KEY_USER, SECRET_KEY_ADMIN } from "src/common/constants";
+import { USER_REPOSITORY, ROLE_REPOSITORY, PASSWORD_LENGTH_GENERATED } from "src/common/constants";
 import { RoleModel } from "src/database/models/role.model";
 import { UserModel } from "src/database/models/user.model";
 import { CreateUserRequest } from "./dto/create.user.request";
@@ -13,11 +13,25 @@ export class AuthService {
 
     async createUser(userToCreate: CreateUserRequest): Promise<UserModel> {
         let userRole = await this.roleRepository.findOne({where: {name: 'user'}});
-        let userTo = { ...userToCreate, password: 'ok', roleId: userRole.id};
+        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        var randomString = '';
+        for (var i = 0; i < PASSWORD_LENGTH_GENERATED; i++) {
+            var randomNumber = Math.floor(Math.random() * chars.length);
+            randomString += chars.substring(randomNumber, randomNumber + 1);
+        }
+        let userTo = { ...userToCreate, password: randomString, roleId: userRole.id};
         return this.userRepository.create(userTo);
     }
-    isAdmin(): Boolean {
-        return true;
+    async validateUser(data: any) : Promise<boolean> {
+        let foundUser = await this.userRepository.findOne({ where: {email: data['email']}, include: [{model: RoleModel}]});
+
+        return foundUser && foundUser.roleId === data['roleId'] && foundUser.id === data['id'] && foundUser.role.name === data['role'] && (!foundUser.teamId || foundUser.teamId == data['teamId']);
+    }
+    async validateAdmin(data: any) : Promise<boolean> {
+        let foundUser = await this.userRepository.findOne({ where: {email: data['email']}, include: [{model: RoleModel}]});
+        return foundUser && foundUser.roleId === data['roleId']
+                && foundUser.id === data['id'] && foundUser.role.name === data['role']
+                && foundUser.role.name === 'admin' && (!foundUser.teamId || foundUser.teamId == data['teamId']);
     }
     async login(loginForm: LoginRequest): Promise<string> {
         try {
@@ -32,7 +46,8 @@ export class AuthService {
                 id: found.id,
                 roleId: found.roleId,
                 role: found.role.name,
-                email: found.email
+                email: found.email,
+                teamId: found.teamId
             }
             const jwt = this.jwtService.signAsync(payload);
 
@@ -43,4 +58,5 @@ export class AuthService {
             return null;
         }
     }
+
 }

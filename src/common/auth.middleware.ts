@@ -17,6 +17,7 @@ export class AuthMiddleware implements NestMiddleware
             let valid = await this.authService.validateUser(data);
             if (valid)
             {
+                req.user = data;
                 next();
             }
             else

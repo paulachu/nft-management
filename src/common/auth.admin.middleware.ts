@@ -18,6 +18,7 @@ export class AuthAdminMiddleware implements NestMiddleware
                 let valid = await this.authService.validateAdmin(data);
                 if (valid)
                 {
+                    req.user = data;
                     next();
                 }
                 else

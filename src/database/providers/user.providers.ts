@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { USER_REPOSITORY } from "src/common/constants";
 import { UserModel } from "../models/user.model";
 

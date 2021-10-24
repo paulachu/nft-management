@@ -1,4 +1,6 @@
-import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+/* eslint-disable prettier/prettier */
+import { BelongsTo, Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { CollectionModel } from "./collection.model";
 import { UserModel } from "./user.model";
 
 @Table
@@ -21,4 +23,7 @@ export class TeamModel extends Model {
 
     @HasMany(() => UserModel)
     members: UserModel[];
+
+    @HasMany(() => CollectionModel)
+    collections: CollectionModel[];
 }

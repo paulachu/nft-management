@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import { CollectionModel } from './collection.model';
-
+import { UserModel } from './user.model';
+import { SellsModel } from './sells.model';
 @Table
 export class NFTModel extends Model {
   @Column({
@@ -17,7 +18,7 @@ export class NFTModel extends Model {
   @Column({
     allowNull: false,
     type: DataType.STRING,
-    unique: true,
+    unique: false,
     validate: {
       notEmpty: true,
     },
@@ -27,7 +28,7 @@ export class NFTModel extends Model {
   @Column({
     allowNull: false,
     type: DataType.INTEGER,
-    unique: true,
+    unique: false,
     validate: {
       notEmpty: true,
     },
@@ -37,34 +38,47 @@ export class NFTModel extends Model {
   @Column({
     allowNull: false,
     type: DataType.INTEGER,
-    unique: true,
+    unique: false,
     validate: {
       notEmpty: true,
     },
   })
   status: number;
 
-  @Column({
-    allowNull: false,
-    type: DataType.TEXT,
-    unique: true,
-    validate: {
-      notEmpty: true,
-    },
-  })
-  OwnersHistory: string;
+  @ForeignKey(() => UserModel)
+  @HasMany(() => UserModel)
+  ownersHistory: UserModel[];
 
   @ForeignKey(() => CollectionModel)
-  @Column
   @Column({
-    allowNull: false,
+    allowNull: true,
     type: DataType.STRING,
     validate: {
-      notEmpty: true,
+      notEmpty: false,
     },
   })
   collectionName: string;
 
-  @BelongsTo(() => CollectionModel)
-  collection: CollectionModel;
+  @Column({
+    allowNull: false,
+    type: DataType.FLOAT,
+    unique: false,
+    validate: {
+      notEmpty: true,
+    },
+  })
+  rate: number;
+  @ForeignKey(() => SellsModel)
+  sells: SellsModel[];
+
+  @Column({
+    allowNull: false,
+    type: DataType.INTEGER,
+    unique: false,
+    defaultValue: 0,
+    validate: {
+      notEmpty: true,
+    },
+  })
+  nbOfVotes: number;
 }

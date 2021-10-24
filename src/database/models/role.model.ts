@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import { UserModel } from "./user.model";
 

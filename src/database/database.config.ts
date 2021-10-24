@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { ConfigService } from "@nestjs/config";
 import { Sequelize } from "sequelize-typescript";
 import { Dialect } from "sequelize/types";
@@ -18,7 +19,7 @@ export class DatabaseConfig {
             database: process.env.DB_NAME,
             host: process.env.DB_HOST,
             dialect: 'sqlite',
-            storage: 'file'
+            storage: 'file.sql'
         };
     }
 }

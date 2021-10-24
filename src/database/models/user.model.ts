@@ -1,7 +1,9 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+/* eslint-disable prettier/prettier */
+import { BelongsTo, BelongsToMany, HasMany, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { RoleModel } from "./role.model";
 import { TeamModel } from "./team.model";
-
+import { NFTModel } from "./nft.model";
+import { SellsModel } from './sells.model';
 @Table
 export class UserModel extends Model {
     @Column({
@@ -69,4 +71,9 @@ export class UserModel extends Model {
 
     @BelongsTo(() => RoleModel)
     role: RoleModel;
+
+    @ForeignKey(() => NFTModel)
+    nfts: NFTModel[];
+    @ForeignKey(() => SellsModel)
+    sells: SellsModel[];
 }

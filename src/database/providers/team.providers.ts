@@ -1,7 +1,7 @@
 import { TEAM_REPOSITORY } from "src/common/constants";
 import { TeamModel } from "../models/team.model";
 
-export const TeamProviders = [
+export const teamProviders = [
     {
         provide: TEAM_REPOSITORY,
         useValue: TeamModel

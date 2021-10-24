@@ -7,7 +7,7 @@ export class AuthMiddleware implements NestMiddleware
     @Inject()
     private jwtService: JwtService;
     @Inject()
-    private authService: AuthService
+    private authService: AuthService;
     async use(req: any, res: any, next: () => void) {
         let header = req.headers['authorization'];
         if (header != null)
@@ -18,6 +18,7 @@ export class AuthMiddleware implements NestMiddleware
             if (valid)
             {
                 req.user = data;
+                console.log(data)
                 next();
             }
             else

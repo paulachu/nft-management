@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res, HttpException, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, HttpException, HttpCode, Inject, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserModel } from 'src/database/models/user.model';
 import { CreateUserRequest } from 'src/auth/dto/create.user.request';
